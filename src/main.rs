@@ -1,6 +1,8 @@
 use std::env;
 
 use advent_of_code::aoc2024::day1::run_day1;
+use advent_of_code::aoc2024::day2::run_day2;
+
 struct Config {
     day: String,
 }
@@ -18,6 +20,7 @@ fn main() {
 fn run(day: &str) {
     match day {
         "1" => run_day1(),
+        "2" => run_day2(),
         _ => (),
     }
 }
