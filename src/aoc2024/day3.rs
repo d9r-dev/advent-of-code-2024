@@ -19,7 +19,7 @@ fn run_part_1(contents: &String) {
         .iter()
         .for_each(|tup| result += tup.0 * tup.1);
 
-    println!("{}", result);
+    println!("Result Day 3 Part 1: {}", result);
 }
 
 fn parse_tupels(string: &str) -> (u64, u64) {
@@ -35,5 +35,23 @@ fn parse_tupels(string: &str) -> (u64, u64) {
 }
 
 fn run_part_2(contents: &String) {
-    ()
+    let re = Regex::new(r"mul\([0-9]+,[0-9]+\)|don't\(\)|do\(\)").unwrap();
+    let matches: Vec<_> = re.find_iter(contents).map(|m| m.as_str()).collect();
+    let mut result: u64 = 0;
+    let mut enabled = true;
+
+    for m in matches {
+        let mut tuple = (0, 0);
+        match m {
+            "don't()" => enabled = false,
+            "do()" => enabled = true,
+            _ => tuple = parse_tupels(m),
+        }
+
+        if enabled {
+            result += tuple.0 * tuple.1;
+        }
+    }
+
+    println!("Result Day 3 Part 2: {}", result)
 }
