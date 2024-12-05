@@ -6,18 +6,6 @@ pub fn run_day4() {
     run_part_1(&contents);
     run_part_2(&contents);
 }
-
-enum Direction {
-    Top,
-    Down,
-    Left,
-    Right,
-    TopRight,
-    TopLeft,
-    BottomRight,
-    BottomLeft,
-}
-
 const DIRECTIONS: [(isize, isize); 8] = [
     (-1, -1),
     (0, -1),
