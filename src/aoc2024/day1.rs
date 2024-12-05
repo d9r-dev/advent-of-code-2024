@@ -27,7 +27,8 @@ pub fn run_part_2(contents: &String) {
         .for_each(|l2| *freq.entry(l2).or_insert(0) += 1);
     let result: u32 = list1
         .iter()
-        .filter_map(|l1| freq.get(l1).map(|f| l1 * f)).sum();
+        .filter_map(|l1| freq.get(l1).map(|f| l1 * f))
+        .sum();
     println!("Result Day1 Part 2: {result}")
 }
 
