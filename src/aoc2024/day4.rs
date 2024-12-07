@@ -1,4 +1,3 @@
-use std::fmt::Error;
 use std::fs;
 
 pub fn run_day4() {
@@ -32,10 +31,15 @@ pub fn run_part_1(input: &str) {
     println!("Part 1: {}", result);
 }
 
-fn build_words(x: isize, y: isize, word_length: usize, matrix: &Grid) -> impl Iterator<Item = String> + '_{
+fn build_words(
+    x: isize,
+    y: isize,
+    word_length: usize,
+    matrix: &Grid,
+) -> impl Iterator<Item = String> + '_ {
     DIRECTIONS.iter().filter_map(move |&(dx, dy)| {
         (0..word_length as isize)
-            .map(|n| char_at(&matrix,x + dx * n, y + dy * n))
+            .map(|n| char_at(&matrix, x + dx * n, y + dy * n))
             .collect()
     })
 }
@@ -49,4 +53,56 @@ fn positions(matrix: &Grid) -> impl Iterator<Item = (isize, isize)> {
 fn char_at(matrix: &Grid, x: isize, y: isize) -> Option<char> {
     matrix.get(x as usize)?.get(y as usize).copied()
 }
-pub fn run_part_2(input: &str) {}
+pub fn run_part_2(input: &str) {
+    let matrix: Grid = input.lines().map(|l| l.chars().collect()).collect();
+    let start = 'A';
+
+    let result = positions(&matrix)
+        .filter(|&(x, y)| char_at(&matrix, x, y) == Some(start))
+        .filter(|&(x, y)| check_croos(&matrix, x, y))
+        .count();
+    println!("Part 2: {}", result);
+}
+
+struct Neighbors {
+    tr: Option<char>,
+    tl: Option<char>,
+    br: Option<char>,
+    bl: Option<char>,
+}
+fn check_croos(matrix: &Grid, x: isize, y: isize) -> bool {
+    let neighbors = Neighbors {
+        tr: char_at(&matrix, x - 1, y + 1),
+        tl: char_at(&matrix, x - 1, y - 1),
+        br: char_at(&matrix, x + 1, y + 1),
+        bl: char_at(&matrix, x + 1, y - 1),
+    };
+
+    match neighbors {
+        Neighbors {
+            tl: Some('M'),
+            br: Some('S'),
+            tr: Some('M'),
+            bl: Some('S'),
+        } => true,
+        Neighbors {
+            tl: Some('S'),
+            br: Some('M'),
+            tr: Some('S'),
+            bl: Some('M'),
+        } => true,
+        Neighbors {
+            tl: Some('M'),
+            br: Some('S'),
+            tr: Some('S'),
+            bl: Some('M'),
+        } => true,
+        Neighbors {
+            tl: Some('S'),
+            br: Some('M'),
+            tr: Some('M'),
+            bl: Some('S'),
+        } => true,
+        _ => false,
+    }
+}
