@@ -7,6 +7,7 @@ use advent_of_code::aoc2024::day4::run_day4;
 use advent_of_code::aoc2024::day5::run_day5;
 use advent_of_code::aoc2024::day6::run_day6;
 use advent_of_code::aoc2024::day7::run_day7;
+use advent_of_code::aoc2024::day8::run_day8;
 
 struct Config {
     day: String,
@@ -31,6 +32,7 @@ fn run(day: &str) {
         "5" => run_day5(),
         "6" => run_day6(),
         "7" => run_day7(),
+        "8" => run_day8(),
         _ => (),
     }
 }
